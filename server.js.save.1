@@ -1,0 +1,38 @@
+const express=require('express');
+const app=express();
+const retry=require('async-retry');
+const path=require('path');
+const mysql=require('mysql2');
+const Port=process.env.Port;
+const AppName=process.env.AppName;
+
+const con = mysql.createConnection({
+  database:process.env.MYSQL_DATABASE,
+  user:process.env.MYSQL_user,
+  password:process.env.MYSQL_PASSWORD,
+  host:process.env.MYSQL_HOST
+});
+
+(async()=>{
+    const results=await retry(async(bail,attempt)=>{
+        console.log(`Attempt #${attempt}`);
+
+        
+    },{
+        retries:10,
+        minTimeout:1000,
+        maxTimeout:20000,
+        factor:2
+
+    })
+})();
+
+app.get('/',(req,res)=>{
+    res.sendFile(path.join(__dirname,"index.html"));
+    con.query('INSERT INTO thetable VALUES("Mzwesh",9)');
+});
+
+app.listen(Port,err=>{
+    if(err) throw err;
+    console.log(`${AppName} running on port ${Port}`)
+});

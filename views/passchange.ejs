@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Reset Password</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="shortcut icon" href="/ChronikeyLogo.png" type="image/x-icon">
+</head>
+<body class="bg-black text-white min-h-screen flex items-center justify-center">
+
+  <div class="bg-gray-900 p-8 rounded-xl shadow-lg w-full max-w-md space-y-6">
+    <h2 class="text-red-400 font-bold text-lg text-center">
+      ‼️ Hurry up! This token will expire at <span class="text-white font-semibold"><%= expire %></span>
+    </h2>
+
+    <form action="/passwordChange" method="post" class="space-y-4">
+      <div>
+        <label for="email" class="block mb-1 text-sm font-medium">Email</label>
+        <input
+          type="email"
+          name="email"
+          value="<%= Email %>"
+          readonly
+          class="w-full px-4 py-2 bg-gray-800 rounded-lg border border-gray-600 focus:outline-none cursor-not-allowed"
+        />
+      </div>
+
+      <div>
+        <label for="password" class="block mb-1 text-sm font-medium">New Password</label>
+        <input
+          type="password"
+          name="password"
+          id="password"
+          placeholder="Enter password"
+          required
+          class="w-full px-4 py-2 bg-gray-800 rounded-lg border border-gray-600 focus:outline-none"
+        />
+      </div>
+
+      <div>
+        <label for="pass2" class="block mb-1 text-sm font-medium">Confirm Password</label>
+        <input
+          type="password"
+          name="pass2"
+          id="pass2"
+          placeholder="Confirm password"
+          required
+          class="w-full px-4 py-2 bg-gray-800 rounded-lg border border-gray-600 focus:outline-none"
+        />
+      </div>
+
+      <button
+        type="submit"
+        class="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 rounded-lg transition duration-200"
+      >
+        Reset Password
+      </button>
+    </form>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

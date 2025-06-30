@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>403 Forbidden</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(135deg, #1e1e2f, #2e2e4e);
+      color: #ffffff;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .glow {
+      font-size: 8rem;
+      font-weight: bold;
+      color: #ff4d4d;
+      text-shadow: 0 0 10px #ff4d4d, 0 0 20px #ff1a1a, 0 0 30px #ff0000;
+      animation: pulse 2s infinite ease-in-out;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        text-shadow: 0 0 10px #ff4d4d, 0 0 20px #ff1a1a, 0 0 30px #ff0000;
+      }
+      50% {
+        text-shadow: 0 0 20px #ff8080, 0 0 30px #ff4d4d, 0 0 40px #ff1a1a;
+      }
+    }
+
+    h2 {
+      font-size: 2rem;
+      margin-top: 10px;
+    }
+
+    p {
+      margin-top: 20px;
+      font-size: 1rem;
+      max-width: 500px;
+      line-height: 1.6;
+      opacity: 0.8;
+    }
+
+    a {
+      margin-top: 30px;
+      display: inline-block;
+      padding: 12px 24px;
+      background-color: #ff4d4d;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 8px;
+      transition: background 0.3s;
+    }
+
+    a:hover {
+      background-color: #ff1a1a;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="glow">403</div>
+  <h2>Access Denied</h2>
+  <p>Oops! You don't have permission to access this page.<br>
+  Please

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>KonnectU - Connect with Tutors</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f4f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        nav {
+            text-align: center;
+            background-color: #333;
+            padding: 1rem;
+        }
+
+        nav a {
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            margin: 0 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        nav a:hover {
+            background-color: #575757;
+        }
+
+        .hero {
+            background: url('https://via.placeholder.com/1500x800') no-repeat center center/cover;
+            height: 60vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 20px;
+        }
+
+        .cta-button {
+            background-color: #FF5722;
+            color: white;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+            text-transform: uppercase;
+            transition: background-color 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background-color: #e64a19;
+        }
+
+        .features {
+            display: flex;
+            justify-content: space-around;
+            padding: 50px;
+            background-color: #fff;
+        }
+
+        .feature {
+            text-align: center;
+            width: 30%;
+        }
+
+        .feature img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .footer {
+            background-color: #333;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        /* Media Queries */
+        @media (max-width: 768px) {
+            .features {
+                flex-direction: column;
+                padding: 20px;
+            }
+
+            .feature {
+                width: 80%;
+                margin: 20px auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Welcome to KonnectU</h1>
+        <p>Connecting Students with Tutors Like Never Before</p>
+    </header>
+
+    <nav>
+        <a href="#">Home</a>
+        <a href="#">Features</a>
+        <a href="#">Pricing</a>
+        <a href="#">Contact</a>
+    </nav>
+
+    <section class="hero">
+        <div>
+            <h1>Find Your Perfect Tutor</h1>
+            <p>Join KonnectU today and enhance your learning experience.</p>
+            <button class="cta-button" onclick="window.location.href='#'">Get Started</button>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="feature">
+            <h2>Expert Tutors</h2>
+            <img src="https://via.placeholder.com/300x200" alt="Tutors">
+            <p>Connect with certified and experienced tutors across various subjects.</p>
+        </div>
+        <div class="feature">
+            <h2>24/7 Availability</h2>
+            <img src="https://via.placeholder.com/300x200" alt="Availability">
+            <p>Access tutors at any time, from anywhere.</p>
+        </div>
+        <div class="feature">
+            <h2>Personalized Learning</h2>
+            <img src="https://via.placeholder.com/300x200" alt="Personalized Learning">
+            <p>Get customized lessons based on your individual learning needs.</p>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>&copy; 2025 KonnectU | All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Simple JavaScript for demonstration
+        const ctaButton = document.querySelector('.cta-button');
+        ctaButton.addEventListener('click', function () {
+            alert('Thanks for clicking! We are redirecting you to the registration page.');
+        });
+    </script>
+
+</body>
+
+</html>
