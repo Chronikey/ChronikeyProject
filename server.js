@@ -420,6 +420,47 @@ app.get('/verify',(req,res)=>{
     })
 });
 
+app.get("/list/locked",(req,res)=>{
+    con.query("SELECT * FROM LockedMemories",(err,results)=>{
+        if(err) throw err;
+       
+        let NewResults=results.map(result=>{
+            let now=dayjs();
+            let OpenedOn=dayjs(result.date_to_be_opened);
+            let RemainingTime=OpenedOn.diff(now,"minutes");
+            let TimeRemaining;
+            
+            if(RemainingTime>525599){
+                TimeRemaining=(RemainingTime/525599).toFixed(0)+" Years Remaining"
+            }else if(RemainingTime>43800){
+                TimeRemaining=(RemainingTime/43800).toFixed(0)+" Months remaining"
+            }
+           else if(RemainingTime>1440){
+                TimeRemaining=(RemainingTime/1440).toFixed(0)+" Days Remaining"
+            }else if(RemainingTime>60){
+                TimeRemaining=`${(RemainingTime/60).toFixed(0)} Hours remaining`
+            }else{
+                TimeRemaining==RemainingTime+" Minutes Remaining";
+            }
+
+            if(RemainingTime>0){
+                return{
+                    Locked: true,
+                    memoryName:result.MemoryName,
+                    ToBeOpened:TimeRemaining
+                }
+            }else{
+                return{
+                    Locked:false,
+                    PostID:result.post_id,
+                    memoryName:result.MemoryName
+                }
+            }
+        })
+        res.render("LockedMemoryList",{TheResults:NewResults})
+    })
+})
+
 let upload=multer({storage,fileFilter:(req,file,cb)=>{
     let Type=/jpeg|jpg|png/;
     let extname=Type.test(path.extname(file.originalname).toLowerCase());

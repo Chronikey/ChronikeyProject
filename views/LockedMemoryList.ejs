@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Memory Lockers</title>
+    <link rel="stylesheet" href="/style2.css">
+  </head>
+  <body>
+    <h1>Memories...Do not Open</h1>
+    <div class="container">
+      <% TheResults.forEach(memory => { %> <% if (memory.Locked) { %>
+      <div class="locker-row">
+        <div class="locker-icon locked">🔒</div>
+        <div class="locker-content">
+          <h2 class="locker-title"><%= memory.memoryName %></h2>
+          <p class="locker-subtitle"><%= memory.ToBeOpened %></p>
+        </div>
+      </div>
+      <% } else { %>
+
+      <div class="locker-row">
+        <div class="locker-icon unlocked">🔓</div>
+        <div class="locker-content">
+          <h2 class="locker-title"><%= memory.memoryName %></h2>
+        </div>
+        <button class="open-button" onclick="window.location.href='/uploaded/to/locked/<%= memory.PostID %>'">Open</button>
+      </div>
+      <% } %> <% }); %>
+    </div>
+  </body>
+</html>
