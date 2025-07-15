@@ -25,7 +25,6 @@ document.getElementById("feeling").addEventListener("change", () => {
 
 function fun(e) {
   e.preventDefault();
-  alert("Button clicked");
   const form = document.getElementById("mdnoForm");
   const Variable = new FormData(form);
   

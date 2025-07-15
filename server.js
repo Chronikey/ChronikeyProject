@@ -491,7 +491,7 @@ app.post('/upload/to/locked/:accessToken',upload.array("FileContent",5),async(re
         }
     
         let Images=[];
-    
+        console.log("Initiating image processing")
         for(const image of req.files){
             let fileName="OurImage"+uuid.v4()+".jpeg";
             let toFile=path.join(Dir,fileName);
@@ -503,7 +503,9 @@ app.post('/upload/to/locked/:accessToken',upload.array("FileContent",5),async(re
     
             Images.push(fileName)
         }
-    
+
+        console.log("Image processing complete.");
+        console.log("Initiating Mysql updated");
         con.query("INSERT INTO LockedMemories VALUES(?,?,?,?,?,?,?,?,?,?,?)",[uuid.v4(),uuid.v1(),req.body.MemoryName,JSON.stringify(Images),"null",req.body.message,req.body.feelings,req.body.openDateTime,dayjs().format("YYYY-MM-DD HH:mm"),os.type(),req.ip],err=>{
             if(err) throw err;
             return res.json({Status:true});
