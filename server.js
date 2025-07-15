@@ -474,14 +474,14 @@ let upload=multer({storage,fileFilter:(req,file,cb)=>{
 }})
 
 let Dir=path.join(__dirname,"uploads");
-app.post('/upload/to/locked/:accessToken',upload.array("FileContent",5),async(req,res)=>{
+app.post('/upload/to/locked/:accessToken',upload.array("FileContent",5),(req,res)=>{
     console.log("This is the access Token",req.params.accessToken)
     jwt.verify(req.params.accessToken,"2265",(err,decoded)=>{
         if(err){
-            return res.json({Status:true})
+            return res.send("error")
         };
 
-        console.log(req.body)
+        console.log("This is what the user is trying to upload",req.body);
         let OpenDate=dayjs(req.body.openDateTime);
         let now=dayjs();
         let timeDifference=OpenDate.diff(now,"days");

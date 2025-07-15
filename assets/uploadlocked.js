@@ -29,8 +29,6 @@ function fun(e) {
   const Variable = new FormData(form);
   
   Variable.append("feelings", JSON.stringify(Feelings));
-  console.log(Variable);
-  console.log("feelings", Feelings);
  
   if (
     !form.FileContent ||
@@ -44,7 +42,7 @@ function fun(e) {
     return;
   }
  
- 
+   console.log("Passed first stage and now will try to upload");
   fetch(`https://chronikey.com/upload/to/locked/${AccessToken}`, {
     method: "POST",
     body: Variable,
