@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chronikey|Upload</title>
+    <link rel="stylesheet" href="/style2.css">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+  <body>
+    <div class="create" id="create">
+      <div class="subCreate">
+        <a href=""
+          ><i class="fa-solid fa-images"></i> Create Public/Private Memory</a
+        >
+        <a href=""
+          ><i class="fa-solid fa-person-walking-luggage"></i> Start A journey</a
+        >
+        <a href=""><i class="fa-solid fa-calendar-days"></i> Create an event</a>
+        <a href=""><i class="fa-solid fa-key"></i> Lock a memory</a>
+        <button
+          class="btn btn-outline-light"
+          onclick="document.getElementById('create').style.display='none'"
+        >
+          Cancel
+        </button>
+      </div>
+    </div>
+    <div class="more" id="more">
+      <div class="options">
+        <span>Quick Links</span
+        ><button onclick="RemoveMore()"><i class="fa-solid fa-x"></i></button>
+        <hr />
+        <a href="/settings"><i class="fa-solid fa-gear"></i> Settings</a>
+        <a href="/uploads/Locked"
+          ><i class="fa-solid fa-lock"></i> My locked memories</a
+        >
+        <a href="/uploads/myEvents"
+          ><i class="fa-solid fa-calendar-days"></i> My events</a
+        >
+        <a href="/uploads/myJourney"
+          ><i class="fa-solid fa-signs-post"></i> My journeys</a
+        >
+        <a href="/tandcs"
+          ><i class="fa-solid fa-file-signature"></i> Terms & Conditions</a
+        >
+        <a href="/ppolicy"
+          ><i class="fa-solid fa-user-lock"></i> Privacy Policy</a
+        >
+        <a href="/company/about"><i class="fa-solid fa-info"></i> About Us</a>
+        <a href="" style="color: red"
+          ><i class="fa-solid fa-right-from-bracket"></i> Log-out</a
+        >
+        <hr />
+        <p>&copy;2025 ChroniKey. All Rights reserved!</p>
+      </div>
+    </div>
+    <!-- begin topNavBar -->
+    <div class="topNavBar">
+      <a href="" class="logo">Chronikey</a>
+      <button onclick="ShowMore()"><i class="fa-solid fa-bars"></i></button>
+    </div>
+    <form
+      action="/upload/to/locked"
+      class="mdnoForm"
+      method="post"
+      id="mdnoForm"
+      enctype="multipart/form-data"
+    >
+      <h3>You'll see uploaded media here</h3>
+      <div id="carouselExample" style="display: none" class="carousel slide">
+        <div class="carousel-inner" id="active">
+          <div class="carousel-item active">
+            <img src="..." class="d-block w-100" alt="..." />
+          </div>
+          <div class="carousel-item">
+            <img src="..." class="d-block w-100" alt="..." />
+          </div>
+          <div class="carousel-item">
+            <img src="..." class="d-block w-100" alt="..." />
+          </div>
+        </div>
+        <button
+          class="carousel-control-prev"
+          type="button"
+          data-bs-target="#carouselExample"
+          data-bs-slide="prev"
+        >
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button
+          class="carousel-control-next"
+          type="button"
+          data-bs-target="#carouselExample"
+          data-bs-slide="next"
+        >
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+      <img id="NoMedia" src="/photos-svgrepo-com (1).svg" alt="" />
+      <label for="MemoryName">Name of the memory</label>
+      <input
+        type="text"
+        name="MemoryName"
+        id="MemoryName"
+        placeholder="Name the memory. eg: Our Matric Dance"
+        required
+      />
+      <label for="messag">Short Message(Optional)</label>
+      <textarea
+        name="message"
+        id="message"
+        cols="40"
+        rows="5"
+        placeholder="Short message to your future self..."
+      ></textarea>
+      <label for="">How are you currently feeling?</label>
+      <select
+        id="feeling"
+        class="form-select"
+        aria-label="Default select example"
+      >
+        <option value="">-- Select a Feeling --</option>
+        <option value="proud">😌 Feeling Proud</option>
+        <option value="down">😞 Feeling Down</option>
+        <option value="happy">😊 Feeling Happy</option>
+        <option value="excited">🤩 Feeling Excited</option>
+        <option value="grateful">🙏 Feeling Grateful</option>
+        <option value="nostalgic">🕰️ Feeling Nostalgic</option>
+        <option value="hopeful">🌟 Feeling Hopeful</option>
+        <option value="lonely">😔 Feeling Lonely</option>
+        <option value="loved">❤️ Feeling Loved</option>
+        <option value="confused">🤔 Feeling Confused</option>
+        <option value="angry">😠 Feeling Angry</option>
+        <option value="peaceful">🕊️ Feeling Peaceful</option>
+        <option value="inspired">✨ Feeling Inspired</option>
+        <option value="anxious">😰 Feeling Anxious</option>
+        <option value="surprised">😲 Feeling Surprised</option>
+        <option value="brave">🦁 Feeling Brave</option>
+        <option value="disappointed">😞 Feeling Disappointed</option>
+        <option value="curious">🧐 Feeling Curious</option>
+        <option value="energetic">⚡ Feeling Energetic</option>
+        <option value="relaxed">😌 Feeling Relaxed</option>
+      </select>
+      <div id="feelings"></div>
+      <label for="openDateTime">Lock until...</label>
+      <input
+        type="datetime-local"
+        name="openDateTime"
+        id="openDateTime"
+        required
+      />
+      <h4 id="error" style="color: red;"></h4>
+      <label for="">Upload Your Files below...</label>
+      <label for="FileContent" class="Select">Select Media from device</label>
+      <input
+        type="file"
+        name="FileContent"
+        id="FileContent"
+        style="display: none"
+        multiple
+        accept="image/png,/image/jpg,image/jpeg"
+        required
+      />
+      <button type="submit" onclick="fun(event)">Upload</button>
+    </form>
+    <div class="BottomNavBar">
+      <div class="icons">
+        <a href=""><i class="fa-solid fa-house"></i></a
+        ><a href=""><i class="fa-solid fa-highlighter"></i></a
+        ><a href="" class="Add"><i class="fa-solid fa-plus"></i></a
+        ><a href=""><i class="fa-solid fa-magnifying-glass"></i></a
+        ><a href=""><i class="fa-solid fa-user"></i></a>
+      </div>
+      <div class="links">
+        <a href="/">Home</a><a href="">Highlights</a
+        ><a href="" id="Add" class="Add">Add</a><a href="/search">Search</a
+        ><a href="/profile/me">Profile</a>
+      </div>
+    </div>
+    <script src="/homescript.js"></script>
+    <script src="/corousel.js"></script>
+    <script src="/uploadlocked.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

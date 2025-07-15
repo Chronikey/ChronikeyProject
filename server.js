@@ -15,7 +15,8 @@ const moment=require('moment');
 const bcrypt=require('bcrypt');
 const jwt=require('jsonwebtoken');
 const JwtCode=process.env.JWT_SECRET
-
+const multer=require("multer");
+const sharp=require("sharp");
 // Environment variables with fallbacks
 const PORT = process.env.PORT || 3000;
 const APP_NAME = process.env.APP_NAME || "MyApp";
@@ -37,6 +38,8 @@ app.use(passport.session());
 app.get('/',NotAuthenticated,(req,res)=>{
     res.render('home')
 });
+let storage=multer.memoryStorage();
+
 
 let con=mysql.createPool({
     user:process.env.MYSQL_USER,
@@ -48,6 +51,13 @@ let con=mysql.createPool({
     connectionLimit: 10,  // Number of simultaneous connections
     queueLimit: 0 
 });
+
+con.query('SELECT NOW()',(err,results)=>{
+    if(err) throw err;
+    console.log(results)
+})
+
+console.log(moment().format("YYYY-MM-DD HH:mm"))
 
 const EmailTranspoter=nodemailer.createTransport({
     host:'smtp.hostinger.com',
@@ -105,6 +115,10 @@ app.get('/login',(req,res)=>{
 
 app.get('/register',(req,res)=>{
     res.render('register',{ErrorMessage:''});
+});
+
+app.get('/upload/to/locked',(req,res)=>{
+    res.render('uploadlocked');
 });
 
 app.post('/login',passport.authenticate('local',{
@@ -406,9 +420,70 @@ app.get('/verify',(req,res)=>{
     })
 });
 
+let upload=multer({storage,fileFilter:(req,file,cb)=>{
+    let Type=/jpeg|jpg|png/;
+    let extname=Type.test(path.extname(file.originalname).toLowerCase());
+    let mimeType=Type.test(file.mimetype);
+
+    if(mimeType && extname){
+        cb(null,true)
+    }else{
+        cb(new Error("Incorrect file type uploaded"))
+    }
+}})
+
+let Dir=path.join(__dirname,"uploads");
+app.post('/upload/to/locked/:accessToken',upload.array("FileContent",5),async(req,res)=>{
+    console.log("This is the access Token",req.params.accessToken)
+    jwt.verify(req.params.accessToken,"2265",(err,decoded)=>{
+        if(err){
+            return res.json({Status:true})
+        };
+
+        console.log(req.body)
+        let OpenDate=dayjs(req.body.openDateTime);
+        let now=dayjs();
+        let timeDifference=OpenDate.diff(now,"days");
+    
+        if(timeDifference<30){
+            return res.json({Status:false,Message:"Image should be locked for at least a month"})
+        }
+    
+        let Images=[];
+    
+        for(const image of req.files){
+            let fileName="OurImage"+uuid.v4()+".jpeg";
+            let toFile=path.join(Dir,fileName);
+    
+            sharp(image.buffer)
+            .jpeg({quality:75})
+            .resize({width:400})
+            .toFile(toFile)
+    
+            Images.push(fileName)
+        }
+    
+        con.query("INSERT INTO LockedMemories VALUES(?,?,?,?,?,?,?,?,?,?,?)",[uuid.v4(),uuid.v1(),req.body.MemoryName,JSON.stringify(Images),"null",req.body.message,req.body.feelings,req.body.openDateTime,dayjs().format("YYYY-MM-DD HH:mm"),os.type(),req.ip],err=>{
+            if(err) throw err;
+            return res.json({Status:true});
+        })
+    })
+})
+
 app.use((req,res,next)=>{
     res.status(404).render('404');
 });
+
+app.get("/get/a/protection/token/:accessID",(req,res)=>{
+    console.log("Recieved a call")
+    let AccessId=req.params.accessID;
+    let Token;
+    if(AccessId="gB#7X!p9L@k3Rm^Yz8$Q"){
+        Token=jwt.sign({},"2265",{expiresIn:"20m"});
+    }
+
+    res.json({Token});
+})
 
 app.listen(PORT, () => {
   console.log(`${APP_NAME} running on port ${PORT}`);

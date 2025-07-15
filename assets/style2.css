@@ -1,0 +1,326 @@
+      body {
+        background-color: black;
+        margin: 0;
+        padding: 0;
+        color: white;
+      }
+      .topNavBar {
+        border-bottom: 1px solid;
+        text-align: center;
+      }
+      .topNavBar button {
+        background-color: transparent;
+        color: white;
+        border: none;
+        float: left;
+      }
+      .logo {
+        color: white;
+        text-decoration: none;
+        font-family: "Edu AU VIC WA NT Arrows", cursive;
+        font-optical-sizing: auto;
+        font-weight: bold;
+        font-style: normal;
+      }
+      .BottomNavBar {
+        text-align: center;
+        box-shadow: 3px 3px 3px 3px rgb(56, 50, 50);
+        border-radius: 20px;
+        position: fixed;
+        background-color: black;
+      }
+      .BottomNavBar a {
+        text-decoration: none;
+        color: white;
+        font-weight: bold;
+        display: block;
+      }
+      .BottomNavBar .icons,
+      .links {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+      }
+      #more {
+        display: none;
+      }
+      .create {
+        position: fixed;
+        display: none;
+        background-color: rgba(0, 0, 0, 0.724);
+        height: 100%;
+        width: 100%;
+      }
+      .create a {
+        text-decoration: none;
+        color: white;
+        display: block;
+      }
+      .create .subCreate {
+        background-color: black;
+      }
+      .ProfileInfo button {
+        background-color: transparent;
+        color: white;
+        border: none;
+        font-weight: bold;
+        font-size: 24px;
+        cursor: pointer;
+      }
+.container {
+        width: 100%;
+        max-width: 800px;
+        margin: 20px auto;
+      }
+
+      .locker-row {
+        display: flex;
+        background: rgba(40, 40, 40, 0.8);
+        border-radius: 12px;
+        padding: 15px;
+        margin-bottom: 15px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        align-items: center;
+        transition: transform 0.3s ease;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .locker-row:hover {
+        transform: translateY(-3px);
+        background: rgba(60, 60, 60, 0.8);
+      }
+
+      .locker-icon {
+        font-size: 2rem;
+        margin-right: 15px;
+        width: 40px;
+        text-align: center;
+      }
+
+      .locked {
+        color: #ff6b81;
+      }
+
+      .unlocked {
+        color: #7bed9f;
+      }
+
+      .locker-content {
+        flex: 1;
+      }
+
+      .locker-title {
+        font-size: 1.3rem;
+        margin: 0 0 3px 0;
+        font-weight: 600;
+      }
+
+      .locker-subtitle {
+        font-size: 0.9rem;
+        margin: 0;
+        opacity: 0.8;
+      }
+
+      .open-button {
+        background: rgba(255, 255, 255, 0.2);
+        border: none;
+        color: white;
+        padding: 8px 15px;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        white-space: nowrap;
+      }
+
+      .open-button:hover {
+        background: rgba(255, 255, 255, 0.3);
+      }
+
+      @media (max-width: 400px) {
+        .BottomNavBar {
+          padding: 8px;
+          bottom: 3%;
+          width: 90%;
+          margin-left: 5%;
+        }
+
+        .locker-row {
+  flex-direction: column;
+  text-align: center;
+  padding: 20px 15px;
+}
+
+.locker-icon {
+  margin-right: 0;
+  margin-bottom: 10px;
+  font-size: 2.5rem;
+}
+
+.locker-content {
+  margin-bottom: 10px;
+}
+
+.locker-title {
+  font-size: 1.4rem;
+}
+
+.open-button {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+h1 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+        .topNavBar {
+          padding: 10px;
+        }
+        .logo {
+          font-size: 20px;
+        }
+        .topNavBar button {
+          font-size: 17px;
+          margin-top: 10px;
+        }
+        .Images {
+          width: 80%;
+          margin-top: 5px;
+          margin-left: 10%;
+        }
+        .more {
+          position: fixed;
+          background-color: rgba(0, 0, 0, 0.724);
+          width: 100%;
+          height: 100%;
+        }
+        .more .options {
+          background-color: black;
+          width: 50%;
+          height: 100%;
+        }
+        .more a {
+          text-decoration: none;
+          color: white;
+          display: block;
+          padding: 10px;
+        }
+        .more .options button {
+          background-color: transparent;
+          color: white;
+          border: none;
+          float: right;
+          margin-top: 5px;
+        }
+        .more .options span {
+          font-weight: bold;
+          font-size: 23px;
+          padding: 2px;
+        }
+        .more p {
+          font-size: 10px;
+          margin: 10px;
+          color: wheat;
+        }
+        .create .subCreate {
+          padding: 10px;
+          width: 86%;
+          text-align: center;
+          border-radius: 10px;
+          margin: 50% 0 0 6%;
+        }
+        .create a {
+          font-size: 20px;
+          padding: 5px;
+        }
+        .ImageContent {
+          width: 92%;
+          height: auto;
+          border: 1px solid;
+          margin: 4%;
+        }
+        .ImageContent .TheImage img {
+          width: 100%;
+          height: 350px;
+        }
+        .ProfileInfo {
+          display: flex;
+          padding: 10px;
+        }
+        .ProfileInfo a {
+          text-decoration: none;
+          font-size: 25px;
+          margin-left: 15px;
+          color: white;
+        }
+        .ProfileInfo img {
+          width: 50px;
+          border-radius: 35px;
+        }
+        .ProfileInfo button {
+          margin-left: 80px;
+          margin-bottom: 25px;
+        }
+        .mdnoForm {
+          border: 1px solid;
+          border-radius: 10px;
+          margin: 4%;
+          padding: 8px;
+          margin-bottom: 30%;
+        }
+        .mdnoForm input {
+          display: block;
+          width: 100%;
+          height: 40px;
+          padding: 8px;
+        }
+        .mdnoForm label {
+          display: block;
+          font-weight: bold;
+          font-size: large;
+        }
+        .mdnoForm textarea {
+          width: 100%;
+          padding: 8px;
+        }
+        .mdnoForm img {
+          width: 50%;
+          margin-left: 25%;
+        }
+        .mdnoForm button {
+          border: 1px solid aliceblue;
+          font-size: 20px;
+          border-radius: 10px;
+          cursor: pointer;
+          margin-left: 40%;
+          padding: 5px;
+          background-color: transparent;
+          color: aliceblue;
+        }
+        .mdnoForm button:hover {
+          color: black;
+          background-color: aliceblue;
+        }
+        .mdnoForm .Select {
+          background-color: grey;
+          padding: 50px;
+          cursor: pointer;
+          margin: 4px;
+          border-radius: 10px;
+        }
+        .mdnoForm #feelings button {
+          background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+          display: inline;
+          margin: 2%;
+        }
+        #carouselExample {
+          width: 100%;
+          max-width: 400px; /* or whatever max width you want */
+          left: 0 !important; /* centers the carousel */
+        }
+        #carouselExample img{
+          width: 100%;
+          height: 400px;
+        }  
+      }
