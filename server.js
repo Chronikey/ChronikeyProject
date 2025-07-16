@@ -521,7 +521,7 @@ app.get("/get/a/protection/token/:accessID",(req,res)=>{
     console.log("Recieved a call")
     let AccessId=req.params.accessID;
     let Token;
-    if(AccessId="gB#7X!p9L@k3Rm^Yz8$Q"){
+    if(AccessId="X9F4B7T2QJ"){
         Token=jwt.sign({},"2265",{expiresIn:"20m"});
     }
 
