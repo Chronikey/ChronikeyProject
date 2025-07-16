@@ -521,8 +521,14 @@ app.get("/get/a/protection/token/:accessID",(req,res)=>{
     console.log("Recieved a call")
     let AccessId=req.params.accessID;
     let Token;
+
     if(AccessId=="X9F4B7T2QJ"){
+        console.log("Code matching");
         Token=jwt.sign({},"2265",{expiresIn:"20m"});
+    }
+
+    if(!Token){
+        return res.status(403).json({error:"Invalid access Id"});
     }
 
     res.json({Token});
