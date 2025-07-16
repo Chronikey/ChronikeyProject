@@ -513,10 +513,6 @@ app.post('/upload/to/locked/:accessToken',upload.array("FileContent",5),(req,res
     })
 })
 
-app.use((req,res,next)=>{
-    res.status(404).render('404');
-});
-
 app.get("/get/a/protection/token/:accessID",(req,res)=>{
     console.log("Recieved a call")
     let AccessId=req.params.accessID;
@@ -533,6 +529,10 @@ app.get("/get/a/protection/token/:accessID",(req,res)=>{
 
     res.json({Token});
 })
+
+app.use((req,res,next)=>{
+    res.status(404).render('404');
+});
 
 app.listen(PORT, () => {
   console.log(`${APP_NAME} running on port ${PORT}`);
