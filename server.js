@@ -102,7 +102,6 @@ passport.deserializeUser((email,done)=>{
 })
 
 app.get('/',NotAuthenticated,(req,res)=>{
-    console.log("This is the user:",req.user)
     res.render('home')
 });
 
@@ -418,7 +417,7 @@ app.get('/verify',(req,res)=>{
 });
 
 app.get("/list/locked",(req,res)=>{
-    con.query("SELECT * FROM LockedMemories",(err,results)=>{
+    con.query("SELECT * FROM LockedMemories where user_id=?",[req.user.id],(err,results)=>{
         if(err) throw err;
        
         let NewResults=results.map(result=>{
@@ -503,7 +502,7 @@ app.post('/upload/to/locked/:accessToken',upload.array("FileContent",5),(req,res
 
         console.log("Image processing complete.");
         console.log("Initiating Mysql updated");
-        con.query("INSERT INTO LockedMemories VALUES(?,?,?,?,?,?,?,?,?,?,?)",[uuid.v4(),uuid.v4(),req.body.MemoryName,JSON.stringify(Images),"null",req.body.message,req.body.feelings,req.body.openDateTime,dayjs().format("YYYY-MM-DD HH:mm"),os.type(),req.ip],err=>{
+        con.query("INSERT INTO LockedMemories VALUES(?,?,?,?,?,?,?,?,?,?,?)",[req.user.id,uuid.v4(),req.body.MemoryName,JSON.stringify(Images),"null",req.body.message,req.body.feelings,req.body.openDateTime,dayjs().format("YYYY-MM-DD HH:mm"),os.type(),req.ip],err=>{
             if(err) throw err;
             return res.json({Status:true});
         })
