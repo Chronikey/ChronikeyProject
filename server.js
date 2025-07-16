@@ -102,7 +102,7 @@ passport.deserializeUser((email,done)=>{
 })
 
 app.get('/',NotAuthenticated,(req,res)=>{
-    console.log(req.user)
+    console.log("This is the user:",req.user)
     res.render('home')
 });
 
