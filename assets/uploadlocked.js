@@ -1,6 +1,7 @@
 let AccessToken;
 window.onload=()=>{
-  fetch("https://chronikey.com/get/a/protection/token/:gB#7X!p9L@k3Rm^Yz8$Q",{
+  let getCode="gB#7X!p9L@k3Rm^Yz8$Q";
+  fetch(`https://chronikey.com/get/a/protection/token/:${getCode}`,{
     method:"GET",
     headers:{"content-Type":"application/json"}
   }).then(response=>response.json()).then(data=>{
