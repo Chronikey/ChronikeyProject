@@ -7,6 +7,59 @@
     <link rel="stylesheet" href="/style2.css">
   </head>
   <body>
+        <div class="create" id="create">
+      <div class="subCreate">
+        <a href=""
+          ><i class="fa-solid fa-images"></i> Create Public/Private Memory</a
+        >
+        <a href=""
+          ><i class="fa-solid fa-person-walking-luggage"></i> Start A journey</a
+        >
+        <a href=""><i class="fa-solid fa-calendar-days"></i> Create an event</a>
+        <a href=""><i class="fa-solid fa-key"></i> Lock a memory</a>
+        <button
+          class="btn btn-outline-light"
+          onclick="document.getElementById('create').style.display='none'"
+        >
+          Cancel
+        </button>
+      </div>
+    </div>
+    <div class="more" id="more">
+      <div class="options">
+        <span>Quick Links</span
+        ><button onclick="RemoveMore()"><i class="fa-solid fa-x"></i></button>
+        <hr />
+        <a href="/settings"><i class="fa-solid fa-gear"></i> Settings</a>
+        <a href="/uploads/Locked"
+          ><i class="fa-solid fa-lock"></i> My locked memories</a
+        >
+        <a href="/uploads/myEvents"
+          ><i class="fa-solid fa-calendar-days"></i> My events</a
+        >
+        <a href="/uploads/myJourney"
+          ><i class="fa-solid fa-signs-post"></i> My journeys</a
+        >
+        <a href="/tandcs"
+          ><i class="fa-solid fa-file-signature"></i> Terms & Conditions</a
+        >
+        <a href="/ppolicy"
+          ><i class="fa-solid fa-user-lock"></i> Privacy Policy</a
+        >
+        <a href="/company/about"><i class="fa-solid fa-info"></i> About Us</a>
+        <a href="" style="color: red"
+          ><i class="fa-solid fa-right-from-bracket"></i> Log-out</a
+        >
+        <hr />
+        <p>&copy;2025 ChroniKey. All Rights reserved!</p>
+      </div>
+    </div>
+    <!-- begin topNavBar -->
+    <div class="topNavBar">
+      <a href="" class="logo">Chronikey</a>
+      <button onclick="ShowMore()"><i class="fa-solid fa-bars"></i></button>
+    </div>
+    <!-- End of top Navbar -->
     <h1>Memories...Do not Open</h1>
     <div class="container">
       <% TheResults.forEach(memory => { %> <% if (memory.Locked) { %>
@@ -28,5 +81,20 @@
       </div>
       <% } %> <% }); %>
     </div>
+        <!-- Begining of BottomNavBar -->
+    <div class="BottomNavBar">
+      <div class="icons">
+        <a href=""><i class="fa-solid fa-house"></i></a
+        ><a href=""><i class="fa-solid fa-highlighter"></i></a
+        ><a href="" class="Add"><i class="fa-solid fa-plus"></i></a
+        ><a href=""><i class="fa-solid fa-magnifying-glass"></i></a
+        ><a href=""><i class="fa-solid fa-user"></i></a>
+      </div>
+      <div class="links">
+        <a href="/">Home</a><a href="">Highlights</a><a href="" class="Add" id="Add">Add</a
+        ><a href="/search">Search</a><a href="/profile/me">Profile</a>
+      </div>
+    </div>
+    <script src="homescript.js"></script>
   </body>
 </html>
