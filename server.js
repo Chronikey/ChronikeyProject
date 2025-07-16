@@ -101,27 +101,11 @@ passport.deserializeUser((email,done)=>{
     })
 })
 
-app.get('/',NotAuthenticated,(req,res)=>{
-    res.render('home')
-});
-
-app.get('/login',(req,res)=>{
-    res.render('login',{loginError:req.flash('error')});
-});
-
-app.get('/register',(req,res)=>{
-    res.render('register',{ErrorMessage:''});
-});
-
-app.get('/upload/to/locked',(req,res)=>{
-    res.render('uploadlocked');
-});
-
-app.post('/login',passport.authenticate('local',{
-    successRedirect:'/',
-    failureRedirect:'/login',
-    failureFlash:true
-}))
+function NotAuthenticatedJson(req,res,next){
+    if(!req.isAuthenticated()){
+        return res.status(401).json({error:"Unauthorized. Please log in"})
+    }
+}
 
 function NotAuthenticated(req,res,next){
     if(!req.isAuthenticated()){
@@ -130,6 +114,37 @@ function NotAuthenticated(req,res,next){
 
     return next()
 }
+
+function Authenticated(req,res,next){
+    if(req.isAuthenticated()){
+        return res.redirect('/')
+    }
+
+    return next()
+}
+
+
+app.get('/',NotAuthenticated,(req,res)=>{
+    res.render('home')
+});
+
+app.get('/login',Authenticated,(req,res)=>{
+    res.render('login',{loginError:req.flash('error')});
+});
+
+app.get('/register',Authenticated,(req,res)=>{
+    res.render('register',{ErrorMessage:''});
+});
+
+app.get('/upload/to/locked',NotAuthenticated,(req,res)=>{
+    res.render('uploadlocked');
+});
+
+app.post('/login',passport.authenticate('local',{
+    successRedirect:'/',
+    failureRedirect:'/login',
+    failureFlash:true
+}))
 
 app.post('/register',(req,res)=>{
     let email=req.body.Mail;
@@ -416,7 +431,7 @@ app.get('/verify',(req,res)=>{
     })
 });
 
-app.get("/list/locked",(req,res)=>{
+app.get("/list/locked",NotAuthenticated,(req,res)=>{
     con.query("SELECT * FROM LockedMemories where user_id=?",[req.user.id],(err,results)=>{
         if(err) throw err;
        
@@ -470,7 +485,7 @@ let upload=multer({storage,fileFilter:(req,file,cb)=>{
 }})
 
 let Dir=path.join(__dirname,"uploads");
-app.post('/upload/to/locked/:accessToken',upload.array("FileContent",5),(req,res)=>{
+app.post('/upload/to/locked/:accessToken',NotAuthenticatedJson,upload.array("FileContent",5),(req,res)=>{
     console.log("This is the access Token",req.params.accessToken)
     jwt.verify(req.params.accessToken,"2265",(err,decoded)=>{
         if(err){
@@ -509,7 +524,7 @@ app.post('/upload/to/locked/:accessToken',upload.array("FileContent",5),(req,res
     })
 })
 
-app.get("/get/a/protection/token/:accessID",(req,res)=>{
+app.get("/get/a/protection/token/:accessID",NotAuthenticated,(req,res)=>{
     let AccessId=req.params.accessID;
     let Token;
 
