@@ -36,9 +36,7 @@ app.use(session({
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
-app.get('/',NotAuthenticated,(req,res)=>{
-    res.render('home')
-});
+
 let storage=multer.memoryStorage();
 
 
@@ -52,13 +50,6 @@ let con=mysql.createPool({
     connectionLimit: 10,  // Number of simultaneous connections
     queueLimit: 0 
 });
-
-con.query('SELECT NOW()',(err,results)=>{
-    if(err) throw err;
-    console.log(results)
-})
-
-console.log(moment().format("YYYY-MM-DD HH:mm"))
 
 const EmailTranspoter=nodemailer.createTransport({
     host:'smtp.hostinger.com',
@@ -109,6 +100,11 @@ passport.deserializeUser((email,done)=>{
         return done(null,user)
     })
 })
+
+app.get('/',NotAuthenticated,(req,res)=>{
+    console.log(req.user)
+    res.render('home')
+});
 
 app.get('/login',(req,res)=>{
     res.render('login',{loginError:req.flash('error')});
@@ -507,7 +503,7 @@ app.post('/upload/to/locked/:accessToken',upload.array("FileContent",5),(req,res
 
         console.log("Image processing complete.");
         console.log("Initiating Mysql updated");
-        con.query("INSERT INTO LockedMemories VALUES(?,?,?,?,?,?,?,?,?,?,?)",[uuid.v4(),uuid.v1(),req.body.MemoryName,JSON.stringify(Images),"null",req.body.message,req.body.feelings,req.body.openDateTime,dayjs().format("YYYY-MM-DD HH:mm"),os.type(),req.ip],err=>{
+        con.query("INSERT INTO LockedMemories VALUES(?,?,?,?,?,?,?,?,?,?,?)",[uuid.v4(),uuid.v4(),req.body.MemoryName,JSON.stringify(Images),"null",req.body.message,req.body.feelings,req.body.openDateTime,dayjs().format("YYYY-MM-DD HH:mm"),os.type(),req.ip],err=>{
             if(err) throw err;
             return res.json({Status:true});
         })
@@ -515,12 +511,10 @@ app.post('/upload/to/locked/:accessToken',upload.array("FileContent",5),(req,res
 })
 
 app.get("/get/a/protection/token/:accessID",(req,res)=>{
-    console.log("Recieved a call")
     let AccessId=req.params.accessID;
     let Token;
 
     if(AccessId=="X9F4B7T2QJ"){
-        console.log("Code matching");
         Token=jwt.sign({},"2265",{expiresIn:"20m"});
     }
 
