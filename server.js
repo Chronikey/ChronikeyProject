@@ -729,7 +729,7 @@ app.post("/upload/to/event",NotAuthenticated,(req,res)=>{
                                  `
                             }           
             
-            transport.sendMail(MailOptions,err=>{
+            EmailTranspoter.sendMail(MailOptions,err=>{
                 if(err){
                     return res.json({status:false,Reason:"Failed to send email",For:"dates"});
                 }
