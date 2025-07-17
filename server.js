@@ -734,7 +734,7 @@ app.post("/upload/to/event",NotAuthenticated,(req,res)=>{
                     return res.json({status:false,Reason:"Failed to send email",For:"dates"});
                 }
 
-                console.log("We good")
+                console.log(`Set an invite email to ${UserEmail}`);
             })   
         })
     })
