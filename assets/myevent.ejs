@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prom Night Countdown</title>
+    <link rel="stylesheet" href="/myevent.css">
+    <link rel="stylesheet" href="/style2.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Your event</h1>
+        </div>
+        
+        <div class="EventDisplayMain">
+            <div class="card CountDown">
+                <h4 id="EventName"></h4>
+                <div class="countdown-display" id="CountDown"></div>
+            </div>
+            
+            <div class="card EventInfo">
+                <h3>👥 Guest List</h3>
+
+                <div class="guest-section status-accepted">
+                    <h4><u>Accepted</u></h4>
+                     <% if(Accepted==0){%>
+                          <span>No users accepted invitation yet</span>
+                        <%}else{%>
+                            <% UserAccepted.forEach(guest=>{%>
+                                <ul>
+                                    <li><%= guest.Username %></li>
+                                </ul>
+                                <%})%>
+                            <%}%>
+                </div>
+                
+                <div class="guest-section status-invited">
+                    <h4><u>Invited</u></h4>
+                     <% if(Invited==0){%>
+                          <span>No users was invited</span>
+                        <%}else{%>
+                            <% UserInvited.forEach(guest=>{%>
+                                <ul>
+                                    <li><%= guest.Username %></li>
+                                </ul>
+                                <%})%>
+                            <%}%>
+                </div>
+                
+                <div class="guest-section status-requested">
+                    <h4><u>Requested</u></h4>
+                     <% if(Requested==0){%>
+                          <span>No user has requested to join</span>
+                        <%}else{%>
+                            <% UserRequested.forEach(guest=>{%>
+                                <ul>
+                                    <li><%= guest.Username %></li>
+                                </ul>
+                                <%})%>
+                            <%}%>
+                </div>
+            </div>
+        </div>
+    </div>
+    <h2 id="demo" style="color: white;"></h2>
+  <script src="/script.js"></script>
+  <script src="/myevent.js"></script>
+</body>
+</html>
