@@ -563,7 +563,7 @@ app.post("/upload/to/event",NotAuthenticated,(req,res)=>{
    })
 
    if(Ids.length==0){
-    console.log("There were Users Invited, So we stopped here")
+    console.log("There were no Users Invited, So we stopped here")
     return res.json({status:true,PostID});
    }
 
@@ -571,7 +571,7 @@ app.post("/upload/to/event",NotAuthenticated,(req,res)=>{
     con.query("INSERT INTO Events VALUES(?,?,?,?,?,?,?,?,?,?)",[PostID,Person,"Invited",req.body.EventName,"null",req.body.Description,req.body.WhoCanSee,dayjs().format("YYYY-MM-DD HH:mm"),req.body.start,req.body.end],err=>{
         if(err) throw err;
 
-        con.query("SELECT email from test_data2 where id=?",[Person],(err,results)=>{
+        con.query("SELECT email from user_info2 where id=?",[Person],(err,results)=>{
             if(err) throw err;
             
             let Token=jwt.sign({EventName:req.body.EventName,EventId:PostID,User:Person},JwtCode,{expiresIn:"48h"});
