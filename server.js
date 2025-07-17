@@ -538,7 +538,7 @@ app.get("/my/event/:eventid",(req,res)=>{
 
         let Difference=StartDate.diff(now,"seconds");
 
-        let query="SELECT * FROM user_info2 JOIN events ON employees.id=events.user_id WHERE events.EventId=?";
+        let query="SELECT * FROM user_info2 JOIN Events ON employees.id=Events.user_id WHERE Events.EventId=?";
         if(Difference>0){
             con.query(query,[req.params.eventid],(err,Results)=>{
                 if(err) throw err;
