@@ -528,6 +528,43 @@ app.get('/create/event',NotAuthenticated,(req,res)=>{
     res.render("EventUpload")
 })
 
+app.get("/my/event/:eventid",(req,res)=>{
+    con.query("SELECT * FROM eventowner where EventId=?",[req.params.eventid],(err,results)=>{
+        if(err) throw err;
+        let Outcome=results[0];
+        let StartDate=dayjs(Outcome.StartDate);
+        let now=dayjs();
+
+
+        let Difference=StartDate.diff(now,"seconds");
+
+        let query="SELECT * FROM user_info2 JOIN events ON employees.id=events.user_id WHERE events.EventId=?";
+        if(Difference>0){
+            con.query(query,[req.params.eventid],(err,Results)=>{
+                if(err) throw err;
+    
+                let OutPut=Results.map(output=>({
+                    Username:output.Fullnames,
+                    Status:output.UserStatus
+                }))
+
+                console.log(OutPut);
+                let Invited=OutPut.filter(object=>object.Status==="Invited").length;
+                let Accepted=OutPut.filter(object=>object.Status==="Accepted").length;
+                let Requested=OutPut.filter(object=>object.Status==="declined").length;
+                let UserInvited=OutPut.filter(object=>object.Status==="Invited");
+                let UserAccepted=OutPut.filter(object=>object.Status==="Accepted");
+                let UserRequested=OutPut.filter(object=>object.Status==="declined");
+
+                return res.render("myevent",{Out:OutPut,Invited,Requested,Accepted,UserInvited,UserAccepted,UserRequested});                
+            })
+        }else{
+            return res.send("Hello world")
+        }
+        
+    })
+})
+
 app.post("/upload/to/event",NotAuthenticated,(req,res)=>{
    let StartingDate=dayjs(req.body.start);
    let EndingDate=dayjs(req.body.end);
