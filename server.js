@@ -746,7 +746,7 @@ app.post("/upload/to/event",NotAuthenticated,(req,res)=>{
 app.post("/search",(req,res)=>{
     let SearchToken=req.body.Token;
     console.log("We just recieved a call",SearchToken);
-    let query=`SELECT * FROM users where first_name REGEXP ? OR last_name REGEXP ?`;
+    let query=`SELECT * FROM user_info2 where first_name REGEXP ? OR last_name REGEXP ?`;
     con.query(query,[SearchToken,SearchToken],(err,results)=>{
         if(err) throw err;
         let SearchResults=results.map(result=>({
