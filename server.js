@@ -524,6 +524,269 @@ app.post('/upload/to/locked/:accessToken',NotAuthenticatedJson,upload.array("Fil
     })
 })
 
+app.get('create/event',NotAuthenticated,(req,res)=>{
+    res.render("EventUpload")
+})
+
+app.post("/upload/to/event",NotAuthenticated,(req,res)=>{
+   let StartingDate=dayjs(req.body.start);
+   let EndingDate=dayjs(req.body.end);
+   let Now=dayjs();
+   let PostID=uuid.v4();
+   let Ids=req.body.People;
+   let userId="1234";
+
+   let EventDuration=EndingDate.diff(StartingDate,"days");
+
+   if(StartingDate.diff(Now,"minutes")<5){
+    return res.json({status:false,Reason:"Event should be starting in at least 5 minutes from now!",For:"dates"})
+   }
+
+   if(EventDuration<0){
+    return res.json({status:false,Reason:"Starting Date cannot be after Ending date. It does not make sense😭",For:'dates'})
+   }if(EventDuration>3){
+    return res.json({status:false,Reason:"Events can be up to 3 days long",For:"dates"})
+   }
+
+   Ids.forEach(UserId => {
+    con.query("select * from user_info2 where id=?",[req.user.id],(err,results)=>{
+        if(err) throw err;
+
+        if(results.length==0){
+            return req.json({status:false,Reason:"One of the invited users are not in our databases",For:"Invited"});
+        }
+    })
+   });
+   
+   con.query("INSERT INTO EventOwner VALUES(?,?,?,?,?,?,?,?,?,?)",[PostID,req.user.id,req.body.EventName,req.body.Description,req.body.WhoCanSee,dayjs().format("YYYY-MM-DD HH:mm"),req.body.start,req.body.end,os.type(),req.ip],err=>{
+    if(err) throw err;
+   })
+
+   if(Ids.length==0){
+    console.log("There were Users Invited, So we stopped here")
+    return res.json({status:true,PostID});
+   }
+
+   Ids.forEach(Person=>{
+    con.query("INSERT INTO Events VALUES(?,?,?,?,?,?,?,?,?,?)",[PostID,Person,"Invited",req.body.EventName,"null",req.body.Description,req.body.WhoCanSee,dayjs().format("YYYY-MM-DD HH:mm"),req.body.start,req.body.end],err=>{
+        if(err) throw err;
+
+        con.query("SELECT email from test_data2 where id=?",[Person],(err,results)=>{
+            if(err) throw err;
+            
+            let Token=jwt.sign({EventName:req.body.EventName,EventId:PostID,User:Person},JwtCode,{expiresIn:"48h"});
+
+            let email=results.map(theEmail=>({Email:theEmail.email}));
+            let UserEmail=email[0].Email;
+            console.log("This is where we are going to send the email",UserEmail);
+
+            const MailOptions={
+                            from:"services@chronikey.com",
+                            to:UserEmail,
+                            subject: `You're Invited to ${req.body.EventName}!`,
+                            html:` 
+                                <!DOCTYPE html>
+                                <html lang="en">
+                                <head>
+                                    <meta charset="UTF-8">
+                                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                                    <title>Event Invitation</title>
+                                </head>
+                                <body style="
+                                    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+                                    line-height: 1.6;
+                                    color: #333;
+                                    max-width: 600px;
+                                    margin: 0 auto;
+                                    padding: 40px 20px;
+                                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                                    min-height: 100vh;
+                                ">
+                                    <div style="
+                                        background: white;
+                                        padding: 40px;
+                                        border-radius: 20px;
+                                        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+                                        text-align: center;
+                                        position: relative;
+                                        overflow: hidden;
+                                    ">
+                                        <!-- Decorative background elements -->
+                                        <div style="
+                                            position: absolute;
+                                            top: -50px;
+                                            right: -50px;
+                                            width: 100px;
+                                            height: 100px;
+                                            background: linear-gradient(45deg, #ff6b6b, #feca57);
+                                            border-radius: 50%;
+                                            opacity: 0.1;
+                                        "></div>
+                                        <div style="
+                                            position: absolute;
+                                            bottom: -30px;
+                                            left: -30px;
+                                            width: 60px;
+                                            height: 60px;
+                                            background: linear-gradient(45deg, #48dbfb, #0abde3);
+                                            border-radius: 50%;
+                                            opacity: 0.1;
+                                        "></div>
+                                        
+                                        <!-- Main content -->
+                                        <div style="position: relative; z-index: 1;">
+                                            <h2 style="
+                                                font-size: 2.5rem;
+                                                font-weight: 700;
+                                                margin: 0 0 30px 0;
+                                                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                                                -webkit-background-clip: text;
+                                                -webkit-text-fill-color: transparent;
+                                                background-clip: text;
+                                                text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                                            ">Hello,${req.user.name}</h2>
+                                            
+                                            <div style="
+                                                background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+                                                padding: 30px;
+                                                border-radius: 15px;
+                                                margin: 30px 0;
+                                                box-shadow: 0 10px 30px rgba(240, 147, 251, 0.3);
+                                            ">
+                                                <p style="
+                                                    font-size: 1.2rem;
+                                                    color: white;
+                                                    margin: 0;
+                                                    font-weight: 500;
+                                                    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+                                                ">You've been invited to <strong style="font-weight: 700; text-decoration: underline;">${req.body.EventName}</strong> by <em style="font-style: italic;">"Sizwe"</em>.</p>
+                                            </div>
+                                            
+                                            <!-- Action buttons -->
+                                            <div style="margin: 40px 0 30px 0;">
+                                                <a href='https://chronikey.com/invite/response?token=${Token}&response=${false}' style="
+                                                    display: inline-block;
+                                                    background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+                                                    color: white;
+                                                    text-decoration: none;
+                                                    padding: 15px 35px;
+                                                    border-radius: 50px;
+                                                    font-weight: 600;
+                                                    font-size: 1.1rem;
+                                                    margin: 0 10px;
+                                                    transition: all 0.3s ease;
+                                                    box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+                                                    border: none;
+                                                    cursor: pointer;
+                                                " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 12px 35px rgba(255, 107, 107, 0.5)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 25px rgba(255, 107, 107, 0.4)';">
+                                                    ✗ Decline
+                                                </a>
+                                                
+                                                <a href='https://chronikey.com/invite/response?token=${Token}&response=${true}' style="
+                                                    display: inline-block;
+                                                    background: linear-gradient(135deg, #4ecdc4, #44a08d);
+                                                    color: white;
+                                                    text-decoration: none;
+                                                    padding: 15px 35px;
+                                                    border-radius: 50px;
+                                                    font-weight: 600;
+                                                    font-size: 1.1rem;
+                                                    margin: 0 10px;
+                                                    transition: all 0.3s ease;
+                                                    box-shadow: 0 8px 25px rgba(78, 205, 196, 0.4);
+                                                    border: none;
+                                                    cursor: pointer;
+                                                " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 12px 35px rgba(78, 205, 196, 0.5)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 25px rgba(78, 205, 196, 0.4)';">
+                                                    ✓ Accept
+                                                </a>
+                                            </div>
+                                            
+                                            <!-- Footer -->
+                                            <div style="
+                                                margin-top: 50px;
+                                                padding-top: 20px;
+                                                border-top: 1px solid #eee;
+                                            ">
+                                                <p style="
+                                                    font-size: 0.9rem;
+                                                    color: #888;
+                                                    margin: 0;
+                                                    font-style: italic;
+                                                ">
+                                                    <span style="
+                                                        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                                                        -webkit-background-clip: text;
+                                                        -webkit-text-fill-color: transparent;
+                                                        background-clip: text;
+                                                        font-weight: 600;
+                                                    ">Chronikey</span> | Memories that matter
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </body>
+                                </html>
+                                 `
+                            }           
+            
+            transport.sendMail(MailOptions,err=>{
+                if(err){
+                    return res.json({status:false,Reason:"Failed to send email",For:"dates"});
+                }
+
+                console.log("We good")
+            })   
+        })
+    })
+   })
+   return res.json({status:true,PostID});
+
+})
+
+app.post("/search",(req,res)=>{
+    let SearchToken=req.body.Token;
+    console.log("We just recieved a call",SearchToken);
+    let query=`SELECT * FROM users where first_name REGEXP ? OR last_name REGEXP ?`;
+    con.query(query,[SearchToken,SearchToken],(err,results)=>{
+        if(err) throw err;
+        let SearchResults=results.map(result=>({
+            TheName:`${result.first_name} ${results.last_name}`,
+            user_id:result.id
+        }));
+
+        if(results.length==0){
+            return res.json({status:false})
+        }else{
+            return res.json({status:true,Results:SearchResults})
+        }
+    })
+})
+
+app.get("/invite/response",(req,res)=>{
+    let Token=req.query.token;
+    let Response=req.query.response;
+    console.log("The response is:",Response)
+
+    console.log("Trying to decode token");
+    jwt.verify(Token,JwtCode,(err,decoded)=>{
+        if(err) return res.send("Wenzani");
+        console.log(`The event name is: ${decoded.EventName}`);
+
+        if(Response=="true"){
+            con.query("UPDATE events SET UserStatus=? WHERE user_id=? AND EventID=?",['Accepted',decoded.User,decoded.EventId],err=>{
+                if(err) throw err;
+                return res.render("accept",{EventName:decoded.EventName});
+            })
+        }else{
+            con.query("UPDATE events SET UserStatus=? WHERE user_id=? AND EventID=?",['Declined',decoded.User,decoded.EventId],err=>{
+                if(err) throw err;
+                return res.render("decline",{EventName:decoded.EventName});
+            })
+        }
+    })
+})
+
+
 app.get("/get/a/protection/token/:accessID",NotAuthenticated,(req,res)=>{
     let AccessId=req.params.accessID;
     let Token;
