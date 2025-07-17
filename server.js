@@ -529,7 +529,7 @@ app.get('/create/event',NotAuthenticated,(req,res)=>{
 })
 
 app.get("/my/event/:eventid",(req,res)=>{
-    con.query("SELECT * FROM eventowner where EventId=?",[req.params.eventid],(err,results)=>{
+    con.query("SELECT * FROM EventOwner where EventId=?",[req.params.eventid],(err,results)=>{
         if(err) throw err;
         let Outcome=results[0];
         let StartDate=dayjs(Outcome.StartDate);
