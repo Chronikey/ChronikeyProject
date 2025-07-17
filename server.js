@@ -611,7 +611,7 @@ app.post("/upload/to/event",NotAuthenticated,(req,res)=>{
         con.query("SELECT email from user_info2 where id=?",[Person],(err,results)=>{
             if(err) throw err;
             
-            let Token=jwt.sign({EventName:req.body.EventName,EventId:PostID,User:Person},JwtCode,{expiresIn:"48h"});
+            let Token=jwt.sign({hot:req.user.first_name,EventName:req.body.EventName,EventId:PostID,User:Person},JwtCode,{expiresIn:"48h"});
 
             let email=results.map(theEmail=>({Email:theEmail.email}));
             let UserEmail=email[0].Email;
@@ -681,7 +681,7 @@ app.post("/upload/to/event",NotAuthenticated,(req,res)=>{
                                                 -webkit-text-fill-color: transparent;
                                                 background-clip: text;
                                                 text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-                                            ">Hello user</h2>
+                                            ">Guess What?!!</h2>
                                             
                                             <div style="
                                                 background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
@@ -696,7 +696,7 @@ app.post("/upload/to/event",NotAuthenticated,(req,res)=>{
                                                     margin: 0;
                                                     font-weight: 500;
                                                     text-shadow: 0 1px 2px rgba(0,0,0,0.1);
-                                                ">You've been invited to <strong style="font-weight: 700; text-decoration: underline;">${req.body.EventName}</strong> by <em style="font-style: italic;">"Sizwe"</em>.</p>
+                                                ">You've been invited to <strong style="font-weight: 700; text-decoration: underline;">${req.body.EventName}</strong> by <em style="font-style: italic;">"${req.user.first_name} ${req.user.last_name}"</em>.</p>
                                             </div>
                                             
                                             <!-- Action buttons -->
@@ -810,14 +810,14 @@ app.get("/invite/response",(req,res)=>{
         console.log(`The event name is: ${decoded.EventName}`);
 
         if(Response=="true"){
-            con.query("UPDATE events SET UserStatus=? WHERE user_id=? AND EventID=?",['Accepted',decoded.User,decoded.EventId],err=>{
+            con.query("UPDATE Events SET UserStatus=? WHERE user_id=? AND EventID=?",['Accepted',decoded.User,decoded.EventId],err=>{
                 if(err) throw err;
-                return res.render("accept",{EventName:decoded.EventName});
+                return res.render("accept",{EventName:decoded.EventName,Host:decoded.host});
             })
         }else{
-            con.query("UPDATE events SET UserStatus=? WHERE user_id=? AND EventID=?",['Declined',decoded.User,decoded.EventId],err=>{
+            con.query("UPDATE Events SET UserStatus=? WHERE user_id=? AND EventID=?",['Declined',decoded.User,decoded.EventId],err=>{
                 if(err) throw err;
-                return res.render("decline",{EventName:decoded.EventName});
+                return res.render("decline",{EventName:decoded.EventName,Host:decoded.host});
             })
         }
     })
