@@ -681,7 +681,7 @@ app.post("/upload/to/event",NotAuthenticated,(req,res)=>{
                                                 -webkit-text-fill-color: transparent;
                                                 background-clip: text;
                                                 text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-                                            ">Hello,${req.user.name}</h2>
+                                            ">Hello user</h2>
                                             
                                             <div style="
                                                 background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
@@ -783,8 +783,8 @@ app.post("/upload/to/event",NotAuthenticated,(req,res)=>{
 app.post("/search",(req,res)=>{
     let SearchToken=req.body.Token;
     console.log("We just recieved a call",SearchToken);
-    let query=`SELECT * FROM user_info2 where first_name REGEXP ? OR last_name REGEXP ?`;
-    con.query(query,[SearchToken,SearchToken],(err,results)=>{
+    let query=`SELECT * FROM user_info2 where first_name REGEXP ? OR last_name REGEXP ? and email!=?`;
+    con.query(query,[SearchToken,SearchToken,req.user.email],(err,results)=>{
         if(err) throw err;
         let SearchResults=results.map(result=>({
             TheName:`${result.first_name} ${results.last_name}`,
