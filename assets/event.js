@@ -102,6 +102,8 @@ document.getElementById("SearchBar").addEventListener("input", () => {
 });
 
 function SubmitForm(e){
+  alert("Button clicked");
+  e.preventDefault();
   let form =document.getElementById("event-form");
   let EventName=form.EventName.value;
   let WhoCanSee=form.repo.value;
