@@ -524,7 +524,7 @@ app.post('/upload/to/locked/:accessToken',NotAuthenticatedJson,upload.array("Fil
     })
 })
 
-app.get('create/event',NotAuthenticated,(req,res)=>{
+app.get('/create/event',NotAuthenticated,(req,res)=>{
     res.render("EventUpload")
 })
 
