@@ -102,7 +102,6 @@ document.getElementById("SearchBar").addEventListener("input", () => {
 });
 
 function SubmitForm(e){
-  alert("Button clicked");
   e.preventDefault();
   let form =document.getElementById("event-form");
   let EventName=form.EventName.value;
@@ -123,7 +122,7 @@ function SubmitForm(e){
   //   return
   // }
   console.log("Ready to call api");
-  fetch("http://chronikey.com/upload/to/event",{
+  fetch("https://chronikey.com/upload/to/event",{
     method:"POST",
     headers:{"content-type":"application/json"},
     body:JSON.stringify({EventName,end,start,Description,WhoCanSee,People})
