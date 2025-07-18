@@ -615,7 +615,7 @@ app.post("/upload/to/event",NotAuthenticated,(req,res)=>{
 
             let email=results.map(theEmail=>({Email:theEmail.email}));
             let UserEmail=email[0].Email;
-            console.log("This is where we are going to send the email",UserEmail);
+            console.log("This is where we are going to send the email:",UserEmail);
 
             const MailOptions={
                             from:'services@chronikey.com',
@@ -765,15 +765,11 @@ app.post("/upload/to/event",NotAuthenticated,(req,res)=>{
                                 </html>
                                  `
                             }           
-            
+            console.log("Initiating email sending");
             EmailTranspoter.sendMail(MailOptions,err=>{
-                if(err){
-                    return res.json({status:false,Reason:"Failed to send email",For:"dates"});
-                }
-
-                console.log(`Set an invite email to ${UserEmail}`);
-            })   
-        })
+                if(err) throw err;
+                console.log('Email sent to',UserEmail);
+            });
     })
    })
    return res.json({status:true,PostID});
