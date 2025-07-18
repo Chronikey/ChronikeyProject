@@ -565,7 +565,7 @@ app.get("/my/event/:eventid",(req,res)=>{
     })
 })
 
-app.post("/upload/to/event",NotAuthenticated,(req,res)=>{
+app.post("/upload/to/event",(req,res)=>{
    let StartingDate=dayjs(req.body.start);
    let EndingDate=dayjs(req.body.end);
    let Now=dayjs();
@@ -766,7 +766,6 @@ app.post("/upload/to/event",NotAuthenticated,(req,res)=>{
                                  `
                             }           
             console.log("Initiating email sending");
-            console.log("This is the email options",MailOptions);
             EmailTranspoter.sendMail(MailOptions,err=>{
                 if(err) throw err;
                 console.log("Email sent to",UserEmail);
