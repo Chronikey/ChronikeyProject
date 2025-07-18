@@ -766,10 +766,12 @@ app.post("/upload/to/event",NotAuthenticated,(req,res)=>{
                                  `
                             }           
             console.log("Initiating email sending");
+            console.log("This is the email options",MailOptions);
             EmailTranspoter.sendMail(MailOptions,err=>{
                 if(err) throw err;
-                console.log('Email sent to',UserEmail);
-            });
+                console.log("Email sent to",UserEmail);
+            })
+        })
     })
    })
    return res.json({status:true,PostID});
