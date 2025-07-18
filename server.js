@@ -528,7 +528,7 @@ app.get('/create/event',NotAuthenticated,(req,res)=>{
     res.render("EventUpload")
 })
 
-app.get("/my/event/:eventid",(req,res)=>{
+app.get("/my/event/:eventid",NotAuthenticated,(req,res)=>{
     con.query("SELECT * FROM EventOwner where EventId=?",[req.params.eventid],(err,results)=>{
         if(err) throw err;
         let Outcome=results[0];
@@ -562,6 +562,32 @@ app.get("/my/event/:eventid",(req,res)=>{
             return res.send("Hello world")
         }
         
+    })
+});
+
+app.post("/my/event",NotAuthenticated,(req,res)=>{
+    console.log("We recieved a call:",req.body.PostID);
+    con.query("select * from EventOwner where EventId=?",[req.body.PostID],(err,results)=>{
+        if(err) throw err;
+
+        let NewResults=results.map(event=>{
+            let now=dayjs();
+            let StartingDate=dayjs(event.StartDate);
+
+            let TimeLeft=StartingDate.diff(now,'seconds');
+            console.log(TimeLeft)
+
+            if(TimeLeft>0){
+                return {
+                    Locked:true,
+                    Start:event.StartDate,
+                    End:event.EndDate,
+                    EventName:event.EventName
+                }
+            }
+        })
+
+        res.json({Results:NewResults})
     })
 })
 
