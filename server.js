@@ -618,7 +618,7 @@ app.post("/upload/to/event",NotAuthenticated,(req,res)=>{
             console.log("This is where we are going to send the email",UserEmail);
 
             const MailOptions={
-                            from:"services@chronikey.com",
+                            from:'services@chronikey.com',
                             to:UserEmail,
                             subject: `You're Invited to ${req.body.EventName}!`,
                             html:` 

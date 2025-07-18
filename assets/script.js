@@ -38,3 +38,4 @@ document.querySelectorAll(".Add").forEach(add=>{
     document.getElementById('more').style.display='none';
     document.getElementById('create').style.display='block';
   })
+});
