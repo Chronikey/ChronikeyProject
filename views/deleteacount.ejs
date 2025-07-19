@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>We're Sad to See You Go | Chronikey</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style3.css">
+</head>
+<body>
+  <div class="container">
+    <h1><i class="fas fa-heart-broken"></i> We're Sad to See You Go</h1>
+    <p>Before you delete your account, we'd love to know how we can improve Chronikey for you and others.</p>
+
+    <form id="deleteForm" method="post" action="/deleteAccountFeedback">
+      <label for="reason">What made you decide to leave Chronikey?</label>
+      <textarea id="reason" name="reason" rows="4" placeholder="Your feedback matters..." required></textarea>
+
+      <label for="improve">Any suggestions to make Chronikey better?</label>
+      <textarea id="improve" name="improve" rows="3" placeholder="We're listening..."></textarea>
+
+      <label>Would you like to be contacted personally for a quick follow-up?</label>
+      <div class="contact-options">
+        <label><input type="radio" name="contact" value="none" checked> No, just delete my account</label>
+        <label><input type="radio" name="contact" value="email"> Yes, via Email</label>
+        <label><input type="radio" name="contact" value="whatsapp"> Yes, via WhatsApp</label>
+        <label><input type="radio" name="contact" value="call"> Yes, via Phone Call</label>
+        <label><input type="radio" name="contact" value="video"> Yes, via Video Call</label>
+      </div>
+
+      <label for="contactDetails">If yes, please leave your contact info:</label>
+      <input type="text" id="contactDetails" name="contactDetails" placeholder="e.g. your email or WhatsApp number">
+
+      <p class="note">⚠️ This action is irreversible. Your data and memories will be permanently deleted.</p>
+      <button type="submit" style="background-color: yellow;">Submit feedback</button>
+    </form>
+          <button style="background-color: green;" onclick="window.location.href='/'"><i class="fa-solid fa-face-smile"></i> Go back Home</button>
+      <button type="button" onclick="deleteAcout()"><i class="fas fa-trash-alt"></i> Permanently Delete My Account</button>
+  </div>
+  <script src="/script.js"></script>
+  <script src="/accountDelete.js"></script>
+</body>
+</html>

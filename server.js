@@ -565,6 +565,32 @@ app.get("/my/event/:eventid",NotAuthenticated,(req,res)=>{
     })
 });
 
+app.post("/deleteAccount",NotAuthenticatedJson,(req,res)=>{
+    if(req.body.VerificationCode!="2sj125hs8kisd8s"){
+        return res.status(403).json({status:false,Reason:"Invalid verification code provided."})
+    }
+
+    req.session.destroy(err=>{
+        if(err){
+            return res.status(500).json({status:false,Reason:"Failed to delete account"});
+        }
+    })
+
+    con.query("DELETE FROM user_info2 where id=?",[req.user.id],(err)=>{
+        if(err) throw err;
+
+        return res.redirect('/login');
+    })
+})
+
+app.get("/settings",NotAuthenticated,(req,res)=>{
+    res.render("settings")
+});
+
+app.get("/deleteAccount",NotAuthenticated,(req,res)=>{
+    res.render("deleteacount")
+});
+
 app.post("/my/event",NotAuthenticated,(req,res)=>{
     console.log("We recieved a call:",req.body.PostID);
     con.query("select * from EventOwner where EventId=?",[req.body.PostID],(err,results)=>{
