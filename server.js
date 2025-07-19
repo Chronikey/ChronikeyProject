@@ -565,7 +565,7 @@ app.get("/my/event/:eventid",NotAuthenticated,(req,res)=>{
     })
 });
 
-app.post("/deleteAccount",NotAuthenticatedJson,(req,res)=>{
+app.post("/deleteAccount",(req,res)=>{
     console.log("We are trying to delete the account of",req.user.id);
     if(req.body.VerificationCode!="2sj125hs8kisd8s"){
         console.log("Invalid verification code provided");
