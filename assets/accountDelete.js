@@ -1,5 +1,6 @@
 function deleteAcout(){
-    fetch('/deleteAccount', {{
+    alert("Button cliked, account will be deleted");
+    fetch('/deleteAccount', {
         method:"POST",
         headers: {
             'Content-Type': 'application/json'

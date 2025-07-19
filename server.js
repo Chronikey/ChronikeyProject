@@ -566,11 +566,14 @@ app.get("/my/event/:eventid",NotAuthenticated,(req,res)=>{
 });
 
 app.post("/deleteAccount",NotAuthenticatedJson,(req,res)=>{
+    console.log("We are trying to delete the account of",req.user.id);
     if(req.body.VerificationCode!="2sj125hs8kisd8s"){
+        console.log("Invalid verification code provided");
         return res.status(403).json({status:false,Reason:"Invalid verification code provided."})
     }
 
     req.session.destroy(err=>{
+        console.log("Session destroyed for user",req.user.id);
         if(err){
             return res.status(500).json({status:false,Reason:"Failed to delete account"});
         }
